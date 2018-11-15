@@ -17,6 +17,7 @@ class XModuleHandler {
     private String msg;
     private int permlvl;
     private MultiUserChat muc;
+    private boolean modex = false;
 
     XModuleHandler(String message, int permlvll, MultiUserChat mucc){
         //Setvar
@@ -24,7 +25,6 @@ class XModuleHandler {
         permlvl = permlvll;
         muc = mucc;
         modules[0] = "";
-        boolean modex = false;
 
         //Check if dir exists
         File directory = new File("./modules/");
@@ -52,50 +52,51 @@ class XModuleHandler {
                 }
             }
         }
-        if(modex){
-            load();
-        }
     }
 
-    private void load(){
-        try{
-            int x = 0;
-            while(x <= modules.length-1 && !finished){
+    boolean load(){
+        boolean handled = false;
+        if(modex){
+            try{
+                int x = 0;
+                while(x <= modules.length-1 && !finished){
 
-                String filename = modules[x].replace(".jar", "");
+                    String filename = modules[x].replace(".jar", "");
 
-                //Get main class from file
-                JarFile jfile = new JarFile("./modules/"+modules[x]);
-                Manifest mf = jfile.getManifest();
-                Attributes atr = mf.getMainAttributes();
-                String maincp = atr.getValue("Main-Class");
+                    //Get main class from file
+                    JarFile jfile = new JarFile("./modules/"+modules[x]);
+                    Manifest mf = jfile.getManifest();
+                    Attributes atr = mf.getMainAttributes();
+                    String maincp = atr.getValue("Main-Class");
 
-                //Do magic
-                URL[] clu = new URL[]{new URL("file:./modules/"+modules[x])};
-                URLClassLoader child = new URLClassLoader(clu, this.getClass().getClassLoader());
-                Class<?> classToLoad = Class.forName(maincp, true, child);
-                Method method = classToLoad.getDeclaredMethod("request", String.class, int.class); // MessageReceivedEvent; Message; Perm_lvl to module
-                Object instance = classToLoad.getConstructor().newInstance();
+                    //Do magic
+                    URL[] clu = new URL[]{new URL("file:./modules/"+modules[x])};
+                    URLClassLoader child = new URLClassLoader(clu, this.getClass().getClassLoader());
+                    Class<?> classToLoad = Class.forName(maincp, true, child);
+                    Method method = classToLoad.getDeclaredMethod("request", String.class, int.class); // MessageReceivedEvent; Message; Perm_lvl to module
+                    Object instance = classToLoad.getConstructor().newInstance();
 
-                Object result = method.invoke(instance, msg, permlvl);
+                    Object result = method.invoke(instance, msg, permlvl);
 
-                if(result != null){
-                    String[] results = result.toString().split(", ");
-                    if(results[0].equals("true") && results.length == 2){
-                        finished = true;
-                        muc.sendMessage(results[1]);
+                    if(result != null){
+                        String[] results = result.toString().split(", ");
+                        if(results[0].equals("true") && results.length == 2){
+                            finished = true;
+                            handled = true;
+                            muc.sendMessage(results[1]);
+                        }else{
+                            finished = false;
+                        }
                     }else{
                         finished = false;
                     }
-                }else{
-                    finished = false;
+
+                    x++;
                 }
-
-                x++;
+            }catch(Exception e){
+                System.err.println("XModH "+e);
             }
-        }catch(Exception e){
-            System.err.println("XModH "+e);
         }
-
+        return handled;
     }
 }
