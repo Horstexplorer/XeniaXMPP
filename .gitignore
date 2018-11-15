@@ -1,0 +1,8 @@
+# Created by .ignore support plugin (hsz.mobi)
+# Created by .ignore support plugin (hsz.mobi)
+/.gradle/
+/.idea/
+/out/
+/*.config
+/modules/
+/XeniaXMPP.iml
