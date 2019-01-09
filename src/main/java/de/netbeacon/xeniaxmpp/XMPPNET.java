@@ -1,5 +1,6 @@
 package de.netbeacon.xeniaxmpp;
 
+
 import org.jivesoftware.smack.*;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.tcp.*;
@@ -43,6 +44,7 @@ class XMPPNET {
                     .setHost(host)
                     .setPort(port)
                     .setHostnameVerifier((hostname, session) -> true)
+                    .setSecurityMode(ConnectionConfiguration.SecurityMode.required)
                     .build();
             connection = new XMPPTCPConnection(config);
             connection.connect();
@@ -64,7 +66,6 @@ class XMPPNET {
             muc = mucm.getMultiUserChat(jid);
             Resourcepart nickname = Resourcepart.from(nick);
             muc.join(nickname);
-            muc.sendMessage("Hey :3");
             Thread.sleep(500);
             System.out.println("Adding message listener");
             muc.addMessageListener(new MessageListener() {

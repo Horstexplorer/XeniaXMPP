@@ -21,5 +21,6 @@ dependencies {
     // Optional for XMPP-IM (RFC 6121) support (Roster, Threaded Chats, …)
     compile "org.igniterealtime.smack:smack-im:4.3.0"
     // Optional for XMPP extensions support
-    compile "org.igniterealtime.smack:smack-extensions:4.3.0"    
+    compile "org.igniterealtime.smack:smack-extensions:4.3.0"
+    
 }
