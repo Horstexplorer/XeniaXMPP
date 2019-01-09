@@ -82,9 +82,9 @@ class Config {
 
     //Version
     String getversion() {
-        String version = "0.0.1.8";
-        String build = "00423";
-        String release = "b";
+        String version = "1.0.1.9";
+        String build = "00453";
+        String release = "r";
 
         return version+"-"+build+"-"+release;
     }
