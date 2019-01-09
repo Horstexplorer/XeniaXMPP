@@ -10,7 +10,8 @@ public class XeniaJabber {
 
         //Get config ready
         Config config = new Config();
-
+        //get modules ready
+        new XModuleHandler("", 0, null);
         if (Boolean.parseBoolean(config.load("sys_activate"))) {
 
             //Prepare
