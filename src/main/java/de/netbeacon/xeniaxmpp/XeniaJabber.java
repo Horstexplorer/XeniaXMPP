@@ -20,11 +20,16 @@ public class XeniaJabber {
             //Join
             xmpp.joinchatroom();
             //just keep everything alive
-            while(true){
+            try{
+                while(true){
+                    //do nothing
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
 
         }else{
-            System.out.println("Deactivated by config.");
+            System.out.println("Deactivated by config");
         }
 
     }

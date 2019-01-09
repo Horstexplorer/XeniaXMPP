@@ -33,7 +33,6 @@ class Config {
 
             prop.setProperty("sys_autoreconnect", "false");
             prop.setProperty("sys_activate", "false");
-            prop.setProperty("sys_activemsghandling", "false");
             prop.setProperty("sys_usemodules", "false");
 
 

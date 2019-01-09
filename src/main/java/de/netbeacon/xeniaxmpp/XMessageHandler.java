@@ -38,12 +38,14 @@ public class XMessageHandler implements Runnable{
         boolean done = false;
         //remove capit. letters
         msg = msg.toLowerCase();
-        //Cut nick out of input
-        msg = msg.replace(nick+":", "").replace(nick, "");
-        //Remove empty spaces
-        msg = msg.trim();
+        if (msg.contains(nick)){
+            //Cut nick out of input
+            msg = msg.replace(nick, "").replace(nick, "");
+            //Remove empty spaces
+            msg = msg.trim();
+        }
 
-        //Check if it is internal
+        //Check if it matches basic functions
         try{
             if(msg.equals("")){
                 done = true;
@@ -92,7 +94,7 @@ public class XMessageHandler implements Runnable{
                 done = true;
                 muc.sendMessage("pong?");
             }
-            if(msg.contains("ping(") && msg.contains(")") && !done && permlvl >= 1){
+            if(msg.contains("ping(") && msg.contains(":") && msg.contains(")") && !done && permlvl >= 1){
                 done = true;
                 boolean fail = false;
                 msg = msg.substring(msg.indexOf("ping(") + 5);
@@ -117,10 +119,19 @@ public class XMessageHandler implements Runnable{
                 muc.sendMessage("Perm:"+permlvl);
             }
         }catch(Exception e){
-            System.err.println("XMH"+e);
+            System.err.println("XMH "+e);
         }finally{
-            if(!done && Boolean.parseBoolean(config.load("sys_usemodules"))){
-                new XModuleHandler(msg, permlvl, muc);
+            if(done){
+                System.out.println("[REQ] OK");
+            }else if(Boolean.parseBoolean(config.load("sys_usemodules"))){
+                XModuleHandler xmh = new XModuleHandler(msg, permlvl, muc);
+                if(xmh.load()){
+                    System.out.println("[REQ] OK");
+                }else{
+                    System.out.println("[REQ] Ignored");
+                }
+            }else{
+                System.out.println("[REQ] Ignored");
             }
         }
     }

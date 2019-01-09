@@ -55,7 +55,6 @@ class XModuleHandler {
     }
 
     boolean load(){
-        boolean handled = false;
         if(modex){
             try{
                 int x = 0;
@@ -73,22 +72,13 @@ class XModuleHandler {
                     URL[] clu = new URL[]{new URL("file:./modules/"+modules[x])};
                     URLClassLoader child = new URLClassLoader(clu, this.getClass().getClassLoader());
                     Class<?> classToLoad = Class.forName(maincp, true, child);
-                    Method method = classToLoad.getDeclaredMethod("request", String.class, int.class); // MessageReceivedEvent; Message; Perm_lvl to module
+                    Method method = classToLoad.getDeclaredMethod("request", String.class, int.class, MultiUserChat.class); // MessageReceivedEvent; Message; Perm_lvl to module, MUC for more fun :D
                     Object instance = classToLoad.getConstructor().newInstance();
 
-                    Object result = method.invoke(instance, msg, permlvl);
+                    Object resul = method.invoke(instance, msg, permlvl, muc);
 
-                    if(result != null){
-                        String[] results = result.toString().split(", ");
-                        if(results[0].equals("true") && results.length == 2){
-                            finished = true;
-                            handled = true;
-                            muc.sendMessage(results[1]);
-                        }else{
-                            finished = false;
-                        }
-                    }else{
-                        finished = false;
+                    if(resul != null){
+                        finished = Boolean.parseBoolean(resul.toString());
                     }
 
                     x++;
@@ -97,6 +87,6 @@ class XModuleHandler {
                 System.err.println("XModH "+e);
             }
         }
-        return handled;
+        return finished;
     }
 }

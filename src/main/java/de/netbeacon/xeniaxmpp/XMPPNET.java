@@ -79,21 +79,8 @@ class XMPPNET {
 
                         try {
                             //Check if the request is for the bot and not from the bot
-                            if (body.toLowerCase().contains(nick) && !from.toLowerCase().contains(nick)) {
-                                System.out.println("[REQ][passiv]<"+from+">: "+body);
-                                //Check if user auth lvl is enough to communicate with the bot
-                                XChatUserAuth xcua = new XChatUserAuth();
-                                int permlvl = xcua.getpermlvl(from);
-
-                                if (permlvl >= 1) {
-                                    Thread mh = new Thread(new XMessageHandler(connection, muc, permlvl, body));
-                                    mh.start();
-                                }
-                                // Should add db cnn to log
-                            }
-                            if(Boolean.parseBoolean(config.load("sys_activemsghandling")) && !from.toLowerCase().contains(nick)){
-                                // active message handling.
-                                System.out.println("[REQ][active]<"+from+">: "+body);
+                            if (!from.toLowerCase().contains(nick)) {
+                                System.out.println("[REQ]<"+from+">: "+body);
                                 //Check if user auth lvl is enough to communicate with the bot
                                 XChatUserAuth xcua = new XChatUserAuth();
                                 int permlvl = xcua.getpermlvl(from);
