@@ -84,6 +84,10 @@ public class XMessageHandler implements Runnable{
                 done = true;
                 muc.sendMessage("Perm:"+permlvl);
             }
+            if(msg.equals("version") && !done && permlvl > 2){
+                done = true;
+                muc.sendMessage("Version:"+version);
+            }
         }catch(Exception e){
             System.err.println("XMH "+e);
         }finally{
