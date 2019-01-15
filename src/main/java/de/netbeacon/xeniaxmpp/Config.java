@@ -34,6 +34,7 @@ class Config {
             prop.setProperty("sys_autoreconnect", "false");
             prop.setProperty("sys_activate", "false");
             prop.setProperty("sys_usemodules", "false");
+            prop.setProperty("sys_usecmodule", "false");
 
 
             prop.store(new FileOutputStream("sys.conf"), null);
@@ -82,9 +83,9 @@ class Config {
 
     //Version
     String getversion() {
-        String version = "1.0.1.11";
-        String build = "00478";
-        String release = "r";
+        String version = "1.0.1.12";
+        String build = "00526";
+        String release = "b";
 
         return version+"-"+build+"-"+release;
     }

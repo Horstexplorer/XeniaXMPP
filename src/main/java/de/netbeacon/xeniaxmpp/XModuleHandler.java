@@ -20,7 +20,7 @@ class XModuleHandler {
     private boolean modex = false;
 
     XModuleHandler(String message, int permlvll, MultiUserChat mucc){
-        //Setvar
+        //set var
         msg = message;
         permlvl = permlvll;
         muc = mucc;
