@@ -1,12 +1,13 @@
 # XeniaXMPP
 #### Jabber/XMPP bot using Smack
 <br></br>
-> Current Version: 1.0.1.11 
+> Current Version: 1.0.1.12 
 ### Configuration
 All settings are stored in the file sys.conf. This file will be created automatically at first start
 ```
 sys_activate=false                      // to disable everything, to make sure everything is set up
-sys_autoreconnect=false                 // reconnect in case of connection loss 
+sys_autoreconnect=false                 // reconnect in case of connection loss
+sys_usecmodule=false                    // activate priority extension
 sys_usemodules=false                    // activate extensions
 
 xmpp_domain=xmpp.domain.tld             // domain of the xmpp server
@@ -70,4 +71,4 @@ muc.sendmessage(String text);                                   // sends text as
 muc.kickParticipant(Resourcepart nickname, String reason);      // kick the user
 ```
 [Smack Documentation](http://download.igniterealtime.org/smack/docs/latest/documentation/)
-<p>Make sure to copy the dependencies from build.gradle for smack.
+<p>Make sure to copy the necessary dependencies from build.gradle for smack.</p>

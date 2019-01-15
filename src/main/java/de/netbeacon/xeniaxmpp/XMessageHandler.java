@@ -91,17 +91,19 @@ public class XMessageHandler implements Runnable{
         }catch(Exception e){
             System.err.println("XMH "+e);
         }finally{
-            if(done){
-                System.out.println("[REQ] OK");
-            }else if(Boolean.parseBoolean(config.load("sys_usemodules"))){
+            if(!done && Boolean.parseBoolean(config.load("sys_usecmodule"))) {
+                XCModuleHandler xcmh = new XCModuleHandler(msg, permlvl, muc);
+                done = xcmh.load();
+            }
+            if(!done && Boolean.parseBoolean(config.load("sys_usemodules"))) {
                 XModuleHandler xmh = new XModuleHandler(msg, permlvl, muc);
-                if(xmh.load()){
-                    System.out.println("[REQ] OK");
-                }else{
-                    System.out.println("[REQ] Ignored");
-                }
-            }else{
-                System.out.println("[REQ] Ignored");
+                done = xmh.load();
+            }
+
+            if(done){
+                System.out.println("Ok");
+            }else {
+                System.out.println("Ignored");
             }
         }
     }
