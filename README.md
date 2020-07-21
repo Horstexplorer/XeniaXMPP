@@ -72,3 +72,4 @@ muc.kickParticipant(Resourcepart nickname, String reason);      // kick the user
 ```
 [Smack Documentation](http://download.igniterealtime.org/smack/docs/latest/documentation/)
 <p>Make sure to copy the necessary dependencies from build.gradle for smack.</p>
+test edit pls ignore
